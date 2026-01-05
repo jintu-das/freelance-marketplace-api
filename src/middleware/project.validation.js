@@ -4,6 +4,7 @@ import {
   ProjectCategory,
   ProjectPriority,
 } from "../constants/project.constants.js";
+import { BadRequestError } from "./error.middleware.js";
 
 // ============================================================================
 // ZOD SCHEMAS
@@ -93,12 +94,9 @@ const validate = (schema, source = "body") => {
     const result = schema.safeParse(req[source]);
 
     if (!result.success) {
-      const errors = result.error.errors.map((err) => err.message);
-      return res.status(400).json({
-        success: false,
-        message: "Validation failed",
-        errors,
-      });
+      const messages = result.error.issues.map((err) => err.message).join(", ");
+      // Throw BadRequestError to be handled by global error handler
+      return next(new BadRequestError(`Validation failed: ${messages}`));
     }
 
     // Replace with parsed data (includes transformations like trim)
