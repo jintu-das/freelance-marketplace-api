@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,39 +7,41 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Example User model - modify according to your needs
-// Uncomment and customize when ready to use Prisma
+// Enums for Project
+enum ProjectStatus {
+  Pending
+  InProgress
+  Completed
+  Cancelled
+}
 
-// model User {
-//   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-//   email     String   @unique
-//   name      String?
-//   password  String
-//   role      Role     @default(USER)
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-// }
+enum ProjectCategory {
+  WebDevelopment
+  MobileApp
+  UIUXDesign
+  GraphicDesign
+  ContentWriting
+  SEO
+  Marketing
+  Other
+}
 
-// enum Role {
-//   USER
-//   FREELANCER
-//   CLIENT
-//   ADMIN
-// }
+enum ProjectPriority {
+  Low
+  Medium
+  High
+  Urgent
+}
 
-// model Project {
-//   id          String   @id @default(auto()) @map("_id") @db.ObjectId
-//   title       String
-//   description String
-//   budget      Float
-//   status      ProjectStatus @default(OPEN)
-//   createdAt   DateTime @default(now())
-//   updatedAt   DateTime @updatedAt
-// }
-
-// enum ProjectStatus {
-//   OPEN
-//   IN_PROGRESS
-//   COMPLETED
-//   CANCELLED
-// }
+// Project model for marketplace listings
+model Project {
+  id            String          @id @default(auto()) @map("_id") @db.ObjectId
+  clientName    String
+  clientEmail   String          @unique
+  category      ProjectCategory
+  priority      ProjectPriority
+  status        ProjectStatus   @default(Pending)
+  termsAccepted Boolean
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+}

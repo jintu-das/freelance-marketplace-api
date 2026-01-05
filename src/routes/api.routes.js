@@ -1,4 +1,12 @@
 import { Router } from "express";
+import {
+  ProjectStatus,
+  ProjectCategory,
+  ProjectPriority,
+  ProjectStatusLabels,
+  ProjectCategoryLabels,
+  ProjectPriorityLabels,
+} from "../constants/project.constants.js";
 
 const router = Router();
 
@@ -33,6 +41,51 @@ router.get("/", (req, res) => {
     success: true,
     message: "Welcome to the Freelance Marketplace API",
     version: "1.0.0",
+  });
+});
+
+/**
+ * @swagger
+ * /api/enums:
+ *   get:
+ *     tags:
+ *       - API
+ *     summary: Get project enums
+ *     description: Returns all enum values for project status, category, and priority
+ *     responses:
+ *       200:
+ *         description: Enum values for projects
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     statuses:
+ *                       type: object
+ *                     categories:
+ *                       type: object
+ *                     priorities:
+ *                       type: object
+ */
+router.get("/enums", (req, res) => {
+  res.json({
+    success: true,
+    data: {
+      statuses: ProjectStatus,
+      categories: ProjectCategory,
+      priorities: ProjectPriority,
+      labels: {
+        statuses: ProjectStatusLabels,
+        categories: ProjectCategoryLabels,
+        priorities: ProjectPriorityLabels,
+      },
+    },
   });
 });
 
