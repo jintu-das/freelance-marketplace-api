@@ -7,6 +7,7 @@ import {
   ProjectCategoryLabels,
   ProjectPriorityLabels,
 } from "../constants/project.constants.js";
+import projectRoutes from "./project.routes.js";
 
 const router = Router();
 
@@ -90,11 +91,8 @@ router.get("/enums", (req, res) => {
 });
 
 /**
- * Add more API routes here
- * Example:
- * router.use('/users', usersRouter);
- * router.use('/projects', projectsRouter);
- * router.use('/auth', authRouter);
+ * Project routes
  */
+router.use("/projects", projectRoutes);
 
 export default router;
